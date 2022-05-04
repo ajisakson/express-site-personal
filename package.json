@@ -1,0 +1,24 @@
+{
+	"name": "server",
+	"version": "1.0.0",
+	"description": "",
+	"main": "server.ts",
+	"scripts": {
+		"dev": "nodemon server.ts",
+		"build": "rm -rf dist && mkdir dist && cp package.json dist/package.json && cp firebase-service-accounts.json dist/firebase-service-accounts.json && cp -r .ebextensions dist/.ebextensions && cd client && npm run build && cp -r dist ../dist/client && cd .. && tsc && cd dist && zip aws-build.zip -r * .[^.]*"
+	},
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"-": "^0.0.1",
+		"cors": "^2.8.5",
+		"express": "^4.18.1",
+		"firebase-admin": "^10.1.0",
+		"nodemon": "^2.0.16",
+		"save": "^2.5.0",
+		"ts-node": "^10.7.0"
+	},
+	"engines": {
+		"node": "16.x"
+	}
+}
