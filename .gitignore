@@ -2,3 +2,4 @@ node_modules
 dist
 firebase-service-accounts.json
 firebaseConfig.json
+*.env
