@@ -9,8 +9,6 @@ function App() {
 	const [serverStatus, updateServerStatus] = useState(false);
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-	const navigate = useNavigate();
-
 	onAuthStateChanged(auth, (user) => {
 		return user ? setIsLoggedIn(true) : setIsLoggedIn(false);
 	});

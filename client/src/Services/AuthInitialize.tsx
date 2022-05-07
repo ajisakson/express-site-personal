@@ -1,6 +1,6 @@
 import { initializeApp } from "@firebase/app";
 import { getAuth } from "@firebase/auth";
-const firebaseConfig = require("./firebaseConfig.json");
+import firebaseConfig from "./firebaseConfig.json";
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
