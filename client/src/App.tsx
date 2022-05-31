@@ -26,8 +26,8 @@ function App() {
 				</div>
 				<nav>
 					<Link to="/">Home</Link>
+					<Link to="/projects">Projects</Link>
 					<Link to="/blog">Blog</Link>
-					<Link to="/about">About</Link>
 					{!isLoggedIn && <Link to="/login">Login</Link>}
 					{isLoggedIn && <Link to="/profile">Profile</Link>}
 				</nav>

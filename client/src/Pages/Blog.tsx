@@ -1,7 +1,7 @@
 import "./Blog.scss";
 
 function Blog() {
-	return <div className="blog-page">Hello this is a blog</div>;
+	return <div className="blog-page">Under Construction</div>;
 }
 
 export default Blog;
