@@ -30,6 +30,7 @@ function App() {
 					<Link to="/blog">Blog</Link>
 					{!isLoggedIn && <Link to="/login">Login</Link>}
 					{isLoggedIn && <Link to="/profile">Profile</Link>}
+					{isLoggedIn && <Link to="/dashboard">Dashboard</Link>}
 				</nav>
 			</div>
 			<div className="api-status">Api Active? {serverStatus ? "true" : "false"}</div>
