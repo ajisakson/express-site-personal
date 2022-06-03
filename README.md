@@ -4,6 +4,8 @@ To eventually use for domains austinisakson.com, ajisakson.com, byssen.dev, and 
 
 # Stack
 
+Typescript
 Express/Node
 React
-Firebase Auth and Firestore
+Firebase Auth
+MongoDB/Mongoose
