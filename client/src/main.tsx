@@ -1,4 +1,4 @@
-import { render } from "react-dom";
+import { createRoot } from "react-dom/client";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./index.scss";
 import App from "./App";
@@ -9,8 +9,11 @@ import Home from "./Pages/Home";
 import Projects from "./Pages/Projects";
 import Dashboard from "./Pages/Dashboard";
 
-const rootElement = document.getElementById("root");
-render(
+const container = document.getElementById("root");
+// @ts-ignore
+const root = createRoot(container);
+
+root.render(
 	<BrowserRouter>
 		<Routes>
 			<Route path="/" element={<App />}>
@@ -22,6 +25,5 @@ render(
 				<Route path="/dashboard" element={<Dashboard />} />
 			</Route>
 		</Routes>
-	</BrowserRouter>,
-	rootElement
+	</BrowserRouter>
 );

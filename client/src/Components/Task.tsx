@@ -1,4 +1,7 @@
+import axios from "axios";
 import { ChangeEvent, ChangeEventHandler, useState } from "react";
+import createToken from "../Services/CreateToken";
+import "./Task.scss";
 
 export const TaskStatus = {
 	0: "Todo",
@@ -9,45 +12,51 @@ export const TaskStatus = {
 };
 
 export interface TaskProps {
-	key: string;
+	id: string;
 	name: string;
 	description: string;
-	createdDate: Date;
-	updatedDate: Date;
-	status: string;
+	createdDate: string;
+	updatedDate: string;
+	status: number;
+	onDelete: Function;
 }
 
-function Task({ key, name, description, createdDate, updatedDate, status }: TaskProps) {
+function Task({ id, name, description, createdDate, updatedDate, status, onDelete }: TaskProps) {
 	const [taskStatus, setStatus] = useState(status);
 
-	function editTask() {
-		console.log("edit this task?");
-	}
-
-	function deleteTask() {
-		console.log("delete this task?");
+	async function editTask() {
+		const header = await createToken();
+		axios.get("/api/tasks", header);
 	}
 
 	function getOptions() {
-		return Object.values(TaskStatus).map((value) => <option value={value}>{value}</option>);
+		return Object.values(TaskStatus).map((value, index) => <option value={index}>{value}</option>);
 	}
 
 	function updateStatus(event: ChangeEvent<HTMLSelectElement>) {
-		setStatus(event.target.value);
+		setStatus(parseInt(event.target.value));
 	}
 
 	return (
 		<div className="task">
-			<h2>{name}</h2>
-			<h3>{description}</h3>
-			<p>{createdDate.toLocaleString()}</p>
-			<p>{updatedDate.toLocaleString()}</p>
-			<p>{taskStatus}</p>
-			<button onClick={editTask}>Edit</button>
-			<button onClick={deleteTask}>Delete</button>
-			<select defaultValue={taskStatus} onChange={updateStatus}>
-				{getOptions()}
-			</select>
+			<div className="row-container">
+				<div className={`status-container ${Object.values(TaskStatus)[taskStatus]}`}></div>
+				<div className="task-info">
+					<h2>{name}</h2>
+					<h3>{description}</h3>
+				</div>
+				<div className="task-date-info">
+					<p>{createdDate}</p>
+					<p>{updatedDate}</p>
+				</div>
+			</div>
+			<div className="button-container">
+				<button onClick={editTask}>Edit</button>
+				<button onClick={() => onDelete(id)}>Delete</button>
+				<select defaultValue={taskStatus} onChange={updateStatus}>
+					{getOptions()}
+				</select>
+			</div>
 		</div>
 	);
 }

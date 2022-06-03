@@ -14,7 +14,8 @@ function Login() {
 	const handleSubmit = (e: any) => {
 		e.preventDefault();
 		signInWithEmailAndPassword(auth, email, password)
-			.then(() => {
+			.then((e) => {
+				console.log(e);
 				navigate("/profile");
 			})
 			.catch((error) => {
