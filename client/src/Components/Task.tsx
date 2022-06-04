@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ChangeEvent, ChangeEventHandler, useState } from "react";
+import { ChangeEvent, ChangeEventHandler, useEffect, useState } from "react";
 import createToken from "../Services/CreateToken";
 import "./Task.scss";
 
@@ -26,7 +26,7 @@ function Task({ id, name, description, createdDate, updatedDate, status, onDelet
 
 	async function editTask() {
 		const header = await createToken();
-		axios.get("/api/tasks", header);
+		axios.put(`/api/tasks/${id}`, {}, header);
 	}
 
 	function getOptions() {
@@ -37,17 +37,35 @@ function Task({ id, name, description, createdDate, updatedDate, status, onDelet
 		setStatus(parseInt(event.target.value));
 	}
 
+	// TODO: figure out how to prevent this from firing when the page is first opened?
+	useEffect(() => {
+		saveTask();
+	});
+
+	async function saveTask() {
+		const header = await createToken();
+		axios.put(
+			`/api/tasks/${id}`,
+			{
+				name: name,
+				description: description,
+				status: taskStatus
+			},
+			header
+		);
+	}
+
 	return (
 		<div className="task">
 			<div className="row-container">
 				<div className={`status-container ${Object.values(TaskStatus)[taskStatus]}`}></div>
 				<div className="task-info">
-					<h2>{name}</h2>
-					<h3>{description}</h3>
+					<h3>{name}</h3>
+					{/* <p>{description}</p> */}
 				</div>
 				<div className="task-date-info">
-					<p>{createdDate}</p>
-					<p>{updatedDate}</p>
+					{/* <p>{createdDate}</p> */}
+					{/* <p>{updatedDate}</p> */}
 				</div>
 			</div>
 			<div className="button-container">

@@ -56,7 +56,15 @@ tasksRouter.post("/", (req: any, res: Response) => {
 });
 
 // update a user's task
-tasksRouter.put("/:taskId", (req: Request, res: Response) => {});
+tasksRouter.put("/:taskId", (req: Request, res: Response) => {
+	console.log(req.body);
+	Task.updateOne(
+		{ uuid: req.params.taskId },
+		{ $set: { name: req.body.name, description: req.body.description, updated: new Date(), status: req.body.status } }
+	).then((result) => {
+		res.send(result);
+	});
+});
 
 // delete a user's task
 tasksRouter.delete("/:taskId", (req: Request, res: Response) => {

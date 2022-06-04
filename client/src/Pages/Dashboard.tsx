@@ -5,7 +5,7 @@ import createToken from "../Services/CreateToken";
 import "./Dashboard.scss";
 
 function Dashboard() {
-	const [taskList, updateTaskList] = useState([]);
+	const [taskList, updateTaskList] = useState<any[]>([]);
 	const [taskName, updateTaskName] = useState("");
 	const [taskDescription, updateTaskDescription] = useState("");
 
@@ -13,6 +13,7 @@ function Dashboard() {
 		const fetchData = async () => {
 			const header = await createToken();
 			const res = await axios.get("/api/tasks", header);
+			console.log(res);
 			updateTaskList(res.data);
 		};
 		fetchData();
@@ -27,6 +28,7 @@ function Dashboard() {
 		try {
 			const res = await axios.post("/api/tasks", payload, header);
 			clearCreate();
+			updateTaskList((taskList) => [res.data.task, ...taskList]);
 		} catch (e) {
 			console.error(e);
 		}
@@ -34,7 +36,10 @@ function Dashboard() {
 
 	async function deleteTask(id: String) {
 		const header = await createToken();
-		const res = await axios.delete(`/api/tasks/${id}`, header);
+		const res = await axios.delete(`/api/tasks/${id}`, header).then(() => {
+			const newArray = taskList.filter((task) => task.uuid !== id);
+			updateTaskList(newArray);
+		});
 	}
 
 	const clearCreate = () => {
@@ -56,8 +61,10 @@ function Dashboard() {
 				<h2>Add Task</h2>
 				<input value={taskName} type="text" placeholder="Task Name" onChange={setTaskName} />
 				<textarea value={taskDescription} placeholder="Task Description" onChange={setTaskDescription} />
-				<button onClick={createTask}>Create</button>
-				<button onClick={clearCreate}>Cancel</button>
+				<div className="button-container">
+					<button onClick={createTask}>Create</button>
+					<button onClick={clearCreate}>Cancel</button>
+				</div>
 			</div>
 			<div className="tasks">
 				{taskList.map((task: any) => (
