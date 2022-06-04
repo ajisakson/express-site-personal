@@ -1,13 +1,13 @@
 import axios from "axios";
 import { ChangeEvent, useEffect, useState } from "react";
 import Task from "../Components/Task";
+import AddTaskModal from "../Modals/AddTaskModal";
 import createToken from "../Services/CreateToken";
 import "./Dashboard.scss";
 
 function Dashboard() {
 	const [taskList, updateTaskList] = useState<any[]>([]);
-	const [taskName, updateTaskName] = useState("");
-	const [taskDescription, updateTaskDescription] = useState("");
+	const [showAddTaskModal, updateShowAddTaskModal] = useState(false);
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -19,7 +19,7 @@ function Dashboard() {
 		fetchData();
 	}, []);
 
-	async function createTask() {
+	async function createTask(taskName: String, taskDescription: String) {
 		const header = await createToken();
 		const payload = {
 			name: taskName,
@@ -27,8 +27,8 @@ function Dashboard() {
 		};
 		try {
 			const res = await axios.post("/api/tasks", payload, header);
-			clearCreate();
 			updateTaskList((taskList) => [res.data.task, ...taskList]);
+			closeCreateTaskModal();
 		} catch (e) {
 			console.error(e);
 		}
@@ -42,30 +42,30 @@ function Dashboard() {
 		});
 	}
 
-	const clearCreate = () => {
-		updateTaskDescription("");
-		updateTaskName("");
+	function closeCreateTaskModal() {
+		updateShowAddTaskModal(false);
+	}
+
+	const AddTaskProps = {
+		show: showAddTaskModal,
+		close: () => {
+			closeCreateTaskModal();
+		},
+		onCreate: (taskName: String, taskDescription: String) => {
+			createTask(taskName, taskDescription);
+		}
 	};
-
-	function setTaskDescription(event: ChangeEvent<HTMLTextAreaElement>) {
-		updateTaskDescription(event.target.value);
-	}
-
-	function setTaskName(event: ChangeEvent<HTMLInputElement>) {
-		updateTaskName(event.target.value);
-	}
 
 	return (
 		<div className="dashboard-page">
-			<div className="new-task">
-				<h2>Add Task</h2>
-				<input value={taskName} type="text" placeholder="Task Name" onChange={setTaskName} />
-				<textarea value={taskDescription} placeholder="Task Description" onChange={setTaskDescription} />
-				<div className="button-container">
-					<button onClick={createTask}>Create</button>
-					<button onClick={clearCreate}>Cancel</button>
-				</div>
-			</div>
+			<AddTaskModal {...AddTaskProps} />
+			<button
+				onClick={() => {
+					updateShowAddTaskModal(true);
+				}}
+			>
+				Create Task
+			</button>
 			<div className="tasks">
 				{taskList.map((task: any) => (
 					<Task
