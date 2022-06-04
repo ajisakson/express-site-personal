@@ -60,7 +60,7 @@ function Task({ id, name, description, createdDate, updatedDate, status, onDelet
 			<div className="row-container">
 				<div className={`status-container ${Object.values(TaskStatus)[taskStatus]}`}></div>
 				<div className="task-info">
-					<h3>{name}</h3>
+					<div>{name}</div>
 					{/* <p>{description}</p> */}
 				</div>
 				<div className="task-date-info">

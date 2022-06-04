@@ -33,7 +33,7 @@ function App() {
 					{isLoggedIn && <Link to="/dashboard">Dashboard</Link>}
 				</nav>
 			</div>
-			<div className="api-status">Api Active? {serverStatus ? "true" : "false"}</div>
+			{!serverStatus && <div>api down XD</div>}
 			<Outlet />
 		</div>
 	);
