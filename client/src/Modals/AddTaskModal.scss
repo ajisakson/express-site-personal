@@ -8,5 +8,7 @@
 	align-items: center;
 	.new-task {
 		background-color: black;
+		display: flex;
+		flex-direction: column;
 	}
 }

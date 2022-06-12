@@ -2,6 +2,8 @@ import axios from "axios";
 import { ChangeEvent, ChangeEventHandler, useEffect, useState } from "react";
 import createToken from "../Services/CreateToken";
 import "./Task.scss";
+import "react-icons/md";
+import { MdDelete, MdModeEdit, MdOutlineVisibility } from "react-icons/md";
 
 export const TaskStatus = {
 	0: "Todo",
@@ -15,15 +17,17 @@ export interface TaskProps {
 	id: string;
 	name: string;
 	description: string;
-	createdDate: string;
-	updatedDate: string;
+	createdDate: Date;
+	updatedDate: Date;
+	dueDate: Date;
 	status: number;
 	onDelete: Function;
+	onView: Function;
+	onEdit: Function;
 }
 
-function Task({ id, name, description, createdDate, updatedDate, status, onDelete }: TaskProps) {
+function Task({ id, name, description, createdDate, updatedDate, dueDate, status, onDelete, onView, onEdit }: TaskProps) {
 	const [taskStatus, setStatus] = useState(status);
-
 	async function editTask() {
 		const header = await createToken();
 		axios.put(`/api/tasks/${id}`, {}, header);
@@ -64,13 +68,21 @@ function Task({ id, name, description, createdDate, updatedDate, status, onDelet
 					{/* <p>{description}</p> */}
 				</div>
 				<div className="task-date-info">
+					{dueDate && <p>{new Date(dueDate).toLocaleDateString()}</p>}
 					{/* <p>{createdDate}</p> */}
 					{/* <p>{updatedDate}</p> */}
 				</div>
 			</div>
 			<div className="button-container">
-				<button onClick={editTask}>Edit</button>
-				<button onClick={() => onDelete(id)}>Delete</button>
+				<button onClick={() => onView({ id, name, description, createdDate, updatedDate, dueDate, status })}>
+					<MdOutlineVisibility />
+				</button>
+				<button onClick={() => onEdit({ id, name, description, dueDate })}>
+					<MdModeEdit />
+				</button>
+				<button onClick={() => onDelete(id)}>
+					<MdDelete />
+				</button>
 				<select defaultValue={taskStatus} onChange={updateStatus}>
 					{getOptions()}
 				</select>

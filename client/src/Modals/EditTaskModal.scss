@@ -1,0 +1,15 @@
+.edit-task-modal {
+	position: fixed;
+	height: 100%;
+	width: 100%;
+	background-color: rgba(0, 0, 0, 0.5);
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	.edit-task {
+		background-color: black;
+		display: flex;
+		flex-direction: column;
+	}
+}

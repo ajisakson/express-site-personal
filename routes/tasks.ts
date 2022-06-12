@@ -1,5 +1,4 @@
 import { NextFunction, Request, Response } from "express";
-import { auth } from "firebase-admin";
 import mongoose from "mongoose";
 const express = require("express");
 const uuid = require("uuid");
@@ -11,7 +10,9 @@ const taskSchema = new mongoose.Schema({
 	user: String,
 	created: Date,
 	updated: Date,
-	status: Number
+	due: Date,
+	status: Number,
+	parent: String
 });
 
 const Task = mongoose.model("Task", taskSchema);
@@ -47,7 +48,9 @@ tasksRouter.post("/", (req: any, res: Response) => {
 		user: req.currentUser.user_id,
 		created: new Date(),
 		updated: new Date(),
-		status: 0
+		due: req.body.due_date,
+		status: 0,
+		parent: ""
 	});
 
 	aTask.save().then(() => {
@@ -59,7 +62,15 @@ tasksRouter.post("/", (req: any, res: Response) => {
 tasksRouter.put("/:taskId", (req: Request, res: Response) => {
 	Task.updateOne(
 		{ uuid: req.params.taskId },
-		{ $set: { name: req.body.name, description: req.body.description, updated: new Date(), status: req.body.status } }
+		{
+			$set: {
+				name: req.body.name,
+				description: req.body.description,
+				updated: new Date(),
+				due: req.body.due_date,
+				status: req.body.status
+			}
+		}
 	).then((result) => {
 		res.send(result);
 	});
