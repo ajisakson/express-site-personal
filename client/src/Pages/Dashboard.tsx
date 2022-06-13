@@ -11,13 +11,13 @@ function Dashboard() {
 	const [taskList, updateTaskList] = useState<any[]>([]);
 	const [showAddTaskModal, updateShowAddTaskModal] = useState(false);
 	const [showEditTaskModal, updateShowEditTaskModal] = useState(false);
+	const [showViewTaskModal, updateShowViewTaskModal] = useState(false);
 	const [selectedTask, updateSelectedTask] = useState({});
 
 	useEffect(() => {
 		const fetchData = async () => {
 			const header = await createToken();
 			const res = await axios.get("/api/tasks", header);
-			console.log(res.data);
 			updateTaskList(res.data);
 		};
 		fetchData();
@@ -48,7 +48,8 @@ function Dashboard() {
 	}
 
 	function viewTask(props: any) {
-		updateSelectedTask;
+		updateSelectedTask(props);
+		updateShowViewTaskModal(true);
 	}
 
 	function onEditTask(props: any) {
@@ -57,17 +58,26 @@ function Dashboard() {
 	}
 
 	async function updateTask(props: any) {
+		console.log(props);
 		const header = await createToken();
 		const payload = {
 			id: props.id,
 			name: props.name,
 			description: props.description,
-			dueDate: props.dueDate
+			due_date: props.dueDate,
+			status: props.status
 		};
 		try {
-			const res = await axios.put(`/api/tasks/${props.id}`, payload, header).then(() => {
-				const newArray = taskList.filter((task) => task.uuid !== props.id);
-				updateTaskList(newArray);
+			const res = await axios.put(`/api/tasks/`, payload, header).then((e) => {
+				const index = taskList.findIndex((task) => task.uuid === props.id);
+				taskList[index] = {
+					id: props.id,
+					name: props.name,
+					description: props.description,
+					due: props.dueDate,
+					status: props.status
+				};
+				updateTaskList(taskList);
 				closeEditTaskModal();
 			});
 		} catch (e) {
@@ -98,8 +108,8 @@ function Dashboard() {
 		close: () => {
 			closeEditTaskModal();
 		},
-		onUpdate: (id: String, taskName: String, taskDescription: String, taskDueDate: Date) => {
-			updateTask({ id, taskName, taskDescription, taskDueDate });
+		onUpdate: (id: String, taskName: String, taskDescription: String, taskDueDate: Date, taskStatus: number) => {
+			updateTask({ id, taskName, taskDescription, taskDueDate, taskStatus });
 		},
 		task: selectedTask
 	};

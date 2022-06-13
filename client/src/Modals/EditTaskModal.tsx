@@ -4,7 +4,7 @@ import "./EditTaskModal.scss";
 export interface EditTaskModalProps {
 	show: boolean;
 	close: () => void;
-	onUpdate: (a: String, b: String, c: String, d: Date) => void;
+	onUpdate: (a: String, b: String, c: String, d: Date, e: number) => void;
 	task: Object;
 }
 
@@ -14,6 +14,7 @@ export default function EditTaskModal<EditTaskModalProps>(props: any) {
 	const [taskName, updateTaskName] = useState(props.task.name);
 	const [taskDescription, updateTaskDescription] = useState(props.task.description);
 	const [taskDueDate, updateTaskDueDate] = useState(props.task.dueDate);
+	const [taskStatus, updateTaskStatus] = useState(props.task.status);
 
 	function setTaskDescription(event: ChangeEvent<HTMLTextAreaElement>) {
 		updateTaskDescription(event.target.value);
@@ -37,7 +38,7 @@ export default function EditTaskModal<EditTaskModalProps>(props: any) {
 				<div className="button-container">
 					<button
 						onClick={() => {
-							props.onUpdate(props.id, taskName, taskDescription, taskDueDate);
+							props.onUpdate(props.task.id, taskName, taskDescription, taskDueDate, taskStatus);
 						}}
 					>
 						Update

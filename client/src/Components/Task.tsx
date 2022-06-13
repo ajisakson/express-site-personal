@@ -28,10 +28,6 @@ export interface TaskProps {
 
 function Task({ id, name, description, createdDate, updatedDate, dueDate, status, onDelete, onView, onEdit }: TaskProps) {
 	const [taskStatus, setStatus] = useState(status);
-	async function editTask() {
-		const header = await createToken();
-		axios.put(`/api/tasks/${id}`, {}, header);
-	}
 
 	function getOptions() {
 		return Object.values(TaskStatus).map((value, index) => <option value={index}>{value}</option>);
@@ -43,16 +39,18 @@ function Task({ id, name, description, createdDate, updatedDate, dueDate, status
 
 	// TODO: figure out how to prevent this from firing when the page is first opened?
 	useEffect(() => {
-		saveTask();
+		// saveTask();
 	});
 
 	async function saveTask() {
 		const header = await createToken();
 		axios.put(
-			`/api/tasks/${id}`,
+			`/api/tasks/`,
 			{
+				id: id,
 				name: name,
 				description: description,
+				due_date: dueDate,
 				status: taskStatus
 			},
 			header
@@ -77,7 +75,7 @@ function Task({ id, name, description, createdDate, updatedDate, dueDate, status
 				<button onClick={() => onView({ id, name, description, createdDate, updatedDate, dueDate, status })}>
 					<MdOutlineVisibility />
 				</button>
-				<button onClick={() => onEdit({ id, name, description, dueDate })}>
+				<button onClick={() => onEdit({ id, name, description, dueDate, status })}>
 					<MdModeEdit />
 				</button>
 				<button onClick={() => onDelete(id)}>

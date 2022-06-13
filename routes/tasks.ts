@@ -59,9 +59,10 @@ tasksRouter.post("/", (req: any, res: Response) => {
 });
 
 // update a user's task
-tasksRouter.put("/:taskId", (req: Request, res: Response) => {
+tasksRouter.put("/", (req: Request, res: Response) => {
+	console.log(req.body.id);
 	Task.updateOne(
-		{ uuid: req.params.taskId },
+		{ uuid: req.body.id },
 		{
 			$set: {
 				name: req.body.name,
