@@ -12,8 +12,16 @@
 			}
 		}
 	}
-	.tasks {
-		max-width: 350px;
-		
+	.main-ui {
+		display: flex;
+		column-gap: 16px;
+
+		.tasks {
+			max-width: 350px;
+			
+		}
+		.notes {
+			flex-grow: 1;
+		}
 	}
 }

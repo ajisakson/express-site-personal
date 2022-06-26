@@ -1,6 +1,7 @@
 import axios from "axios";
 import { ChangeEvent, useEffect, useState } from "react";
 import { useDrag } from "react-dnd";
+import Note, { NoteState } from "../Components/Note";
 import Task from "../Components/Task";
 import AddTaskModal from "../Modals/AddTaskModal";
 import EditTaskModal from "../Modals/EditTaskModal";
@@ -9,6 +10,7 @@ import "./Dashboard.scss";
 
 function Dashboard() {
 	const [taskList, updateTaskList] = useState<any[]>([]);
+	const [noteList, updateNoteList] = useState<any[]>([]);
 	const [showAddTaskModal, updateShowAddTaskModal] = useState(false);
 	const [showEditTaskModal, updateShowEditTaskModal] = useState(false);
 	const [showViewTaskModal, updateShowViewTaskModal] = useState(false);
@@ -19,6 +21,15 @@ function Dashboard() {
 			const header = await createToken();
 			const res = await axios.get("/api/tasks", header);
 			updateTaskList(res.data);
+		};
+		fetchData();
+	}, []);
+
+	useEffect(() => {
+		const fetchData = async () => {
+			const header = await createToken();
+			const res = await axios.get("/api/notes", header);
+			updateNoteList(res.data);
 		};
 		fetchData();
 	}, []);
@@ -85,6 +96,10 @@ function Dashboard() {
 		}
 	}
 
+	function deleteNote() {}
+	function viewNote() {}
+	function onEditNote() {}
+
 	function closeCreateTaskModal() {
 		updateShowAddTaskModal(false);
 	}
@@ -118,31 +133,55 @@ function Dashboard() {
 		<div className="dashboard-page">
 			<AddTaskModal {...AddTaskProps} />
 			<EditTaskModal {...EditTaskProps} />
-			<button
-				onClick={() => {
-					updateShowAddTaskModal(true);
-				}}
-			>
-				Create Task
-			</button>
-			<div className="tasks">
-				{taskList.map((task: any) => (
-					<Task
-						key={task.uuid}
-						id={task.uuid}
-						name={task.name}
-						description={task.description}
-						createdDate={task.created}
-						updatedDate={task.updated}
-						dueDate={task.due}
-						status={task.status}
-						onDelete={deleteTask}
-						onView={viewTask}
-						onEdit={onEditTask}
-					/>
-				))}
+			<div className="main-ui">
+				<div className="tasks">
+					<button
+						onClick={() => {
+							updateShowAddTaskModal(true);
+						}}
+					>
+						Create Task
+					</button>
+					{taskList.map((task: any) => (
+						<Task
+							key={task.uuid}
+							id={task.uuid}
+							name={task.name}
+							description={task.description}
+							createdDate={task.created}
+							updatedDate={task.updated}
+							dueDate={task.due}
+							status={task.status}
+							onDelete={deleteTask}
+							onView={viewTask}
+							onEdit={onEditTask}
+						/>
+					))}
+				</div>
+				<div className="notes">
+					<button
+						onClick={() => {
+							updateShowAddTaskModal(true);
+						}}
+					>
+						Create Note
+					</button>
+					{noteList.map((note: any) => {
+						<Note
+							key={note.uuid}
+							id={note.uuid}
+							name={note.name}
+							contents={note.contents}
+							createdDate={note.created}
+							updatedDate={note.updated}
+							state={NoteState.preview}
+							onDelete={deleteNote}
+							onView={viewNote}
+							onEdit={onEditNote}
+						/>;
+					})}
+				</div>
 			</div>
-			<div className="notes"></div>
 		</div>
 	);
 }

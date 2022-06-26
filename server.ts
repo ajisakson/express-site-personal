@@ -10,6 +10,7 @@ const conn = require("./conn");
 const { v4: uuidv4 } = require("uuid");
 const users = require("./routes/users");
 const tasks = require("./routes/tasks");
+const notes = require("./routes/notes");
 const port = process.env.PORT || 4001;
 const baseUrl = port === 4001 ? path.join(__dirname, "dist/client") : path.join(__dirname, "client");
 
@@ -35,6 +36,7 @@ app.get("/api", (req: Request, res: Response) => {
 
 app.use("/api/users", users);
 app.use("/api/tasks", tasks);
+app.use("/api/notes", notes);
 
 app.get("*", (req: Request, res: Response) => {
 	res.sendFile(path.join(baseUrl, "/index.html"));
