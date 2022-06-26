@@ -1,15 +1,9 @@
+import axios from "axios";
 import { ChangeEvent, MouseEventHandler, useState } from "react";
+import createToken from "../Services/CreateToken";
 import "./AddTaskModal.scss";
 
-export interface AddTaskModalProps {
-	show: boolean;
-	close: () => void;
-	onCreate: (a: String, b: String) => void;
-}
-
-export default function AddTaskModal<AddTaskModalProps>(props: any) {
-	if (!props.show) return null;
-
+export default function AddTaskModal() {
 	const [taskName, updateTaskName] = useState("");
 	const [taskDescription, updateTaskDescription] = useState("");
 	const [taskDueDate, updateTaskDueDate] = useState("");
@@ -26,6 +20,20 @@ export default function AddTaskModal<AddTaskModalProps>(props: any) {
 		updateTaskDueDate(event.target.value);
 	}
 
+	async function createTask(taskName: String, taskDescription: String, taskDueDate: Date) {
+		const header = await createToken();
+		const payload = {
+			name: taskName,
+			description: taskDescription,
+			due_date: taskDueDate
+		};
+		try {
+			const res = await axios.post("/api/tasks", payload, header);
+		} catch (e) {
+			console.error(e);
+		}
+	}
+
 	return (
 		<div className="add-task-modal">
 			<div className="new-task">
@@ -36,12 +44,12 @@ export default function AddTaskModal<AddTaskModalProps>(props: any) {
 				<div className="button-container">
 					<button
 						onClick={() => {
-							props.onCreate(taskName, taskDescription, taskDueDate);
+							createTask(taskName, taskDescription, new Date(taskDueDate));
 						}}
 					>
 						Create
 					</button>
-					<button onClick={props.close}>Cancel</button>
+					<button onClick={() => {}}>Cancel</button>
 				</div>
 			</div>
 		</div>

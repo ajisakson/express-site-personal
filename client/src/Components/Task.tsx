@@ -37,10 +37,9 @@ function Task({ id, name, description, createdDate, updatedDate, dueDate, status
 		setStatus(parseInt(event.target.value));
 	}
 
-	// TODO: figure out how to prevent this from firing when the page is first opened?
 	useEffect(() => {
-		// saveTask();
-	});
+		saveTask();
+	}, [taskStatus]);
 
 	async function saveTask() {
 		const header = await createToken();

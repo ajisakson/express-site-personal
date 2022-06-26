@@ -1,20 +1,15 @@
+import axios from "axios";
 import { ChangeEvent, MouseEventHandler, useState } from "react";
+import createToken from "../Services/CreateToken";
 import "./EditTaskModal.scss";
 
-export interface EditTaskModalProps {
-	show: boolean;
-	close: () => void;
-	onUpdate: (a: String, b: String, c: String, d: Date, e: number) => void;
-	task: Object;
-}
+export default function EditTaskModal(task: any) {
+	const [taskName, updateTaskName] = useState(task.name);
+	const [taskDescription, updateTaskDescription] = useState(task.description);
+	const [taskDueDate, updateTaskDueDate] = useState(task.dueDate);
+	const [taskStatus, updateTaskStatus] = useState(task.status);
 
-export default function EditTaskModal<EditTaskModalProps>(props: any) {
-	if (!props.show) return null;
-
-	const [taskName, updateTaskName] = useState(props.task.name);
-	const [taskDescription, updateTaskDescription] = useState(props.task.description);
-	const [taskDueDate, updateTaskDueDate] = useState(props.task.dueDate);
-	const [taskStatus, updateTaskStatus] = useState(props.task.status);
+	const id = task.id;
 
 	function setTaskDescription(event: ChangeEvent<HTMLTextAreaElement>) {
 		updateTaskDescription(event.target.value);
@@ -28,6 +23,25 @@ export default function EditTaskModal<EditTaskModalProps>(props: any) {
 		updateTaskDueDate(event.target.value);
 	}
 
+	async function updateTask(props: any) {
+		console.log(props);
+		const header = await createToken();
+		const payload = {
+			id: id,
+			name: taskName,
+			description: taskDescription,
+			due_date: taskDueDate,
+			status: taskStatus
+		};
+		try {
+			const res = await axios.put(`/api/tasks/`, payload, header).then((e) => {
+				// TODO: update the task list
+			});
+		} catch (e) {
+			console.error(e);
+		}
+	}
+
 	return (
 		<div className="edit-task-modal">
 			<div className="edit-task">
@@ -38,12 +52,12 @@ export default function EditTaskModal<EditTaskModalProps>(props: any) {
 				<div className="button-container">
 					<button
 						onClick={() => {
-							props.onUpdate(props.task.id, taskName, taskDescription, taskDueDate, taskStatus);
+							updateTask({ id, taskName, taskDescription, taskDueDate, taskStatus });
 						}}
 					>
 						Update
 					</button>
-					<button onClick={props.close}>Cancel</button>
+					<button onClick={() => {}}>Cancel</button>
 				</div>
 			</div>
 		</div>
