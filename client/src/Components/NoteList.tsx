@@ -14,7 +14,6 @@ function NoteList() {
 		const fetchData = async () => {
 			const header = await createToken();
 			const res = await axios.get("/api/notes", header);
-			console.log(res.data);
 			updateNoteList(res.data);
 		};
 		fetchData();

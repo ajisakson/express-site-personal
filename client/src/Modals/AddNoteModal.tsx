@@ -4,7 +4,7 @@ import { ChangeEvent, useRef, useState } from "react";
 import createToken from "../Services/CreateToken";
 import "./AddNoteModal.scss";
 
-export default function AddNoteModal() {
+export default function AddNoteModal({ data }: any) {
 	const editorRef = useRef(null);
 	const [noteName, updateNoteName] = useState("");
 

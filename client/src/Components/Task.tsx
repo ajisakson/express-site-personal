@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ChangeEvent, ChangeEventHandler, useContext, useEffect, useState } from "react";
+import { ChangeEvent, ChangeEventHandler, useContext, useEffect, useRef, useState } from "react";
 import createToken from "../Services/CreateToken";
 import "./Task.scss";
 import "react-icons/md";
@@ -27,6 +27,7 @@ export interface TaskProps {
 
 function Task({ id, name, description, createdDate, updatedDate, dueDate, status, onDelete }: TaskProps) {
 	const [taskStatus, setStatus] = useState(status);
+	const isMounted = useRef(false);
 
 	function getOptions() {
 		return Object.values(TaskStatus).map((value, index) => <option value={index}>{value}</option>);
@@ -39,7 +40,11 @@ function Task({ id, name, description, createdDate, updatedDate, dueDate, status
 	const { setFocusModal, setData } = useFocus();
 
 	useEffect(() => {
-		saveTask();
+		if (isMounted.current) {
+			saveTask();
+		} else {
+			isMounted.current = true;
+		}
 	}, [taskStatus]);
 
 	async function saveTask() {

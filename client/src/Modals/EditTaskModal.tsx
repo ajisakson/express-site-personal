@@ -1,17 +1,23 @@
 import axios from "axios";
-import { ChangeEvent, MouseEventHandler, useState } from "react";
-import { useFocus } from "../Pages/Dashboard";
+import { ChangeEvent, useEffect, useState } from "react";
 import createToken from "../Services/CreateToken";
 import "./EditTaskModal.scss";
 
-export default function EditTaskModal() {
-	const { data } = useFocus();
+export default function EditTaskModal({ data }: any) {
+	// const { data } = useFocus();
 
 	const taskId = data.id;
 	const [taskName, updateTaskName] = useState(data.name);
 	const [taskDescription, updateTaskDescription] = useState(data.description);
 	const [taskDueDate, updateTaskDueDate] = useState(data.dueDate);
 	const [taskStatus, updateTaskStatus] = useState(data.status);
+
+	useEffect(() => {
+		updateTaskName(data.name);
+		updateTaskDescription(data.description);
+		updateTaskDueDate(data.dueDate);
+		updateTaskStatus(data.status);
+	}, [data]);
 
 	function setTaskDescription(event: ChangeEvent<HTMLTextAreaElement>) {
 		updateTaskDescription(event.target.value);
@@ -44,16 +50,14 @@ export default function EditTaskModal() {
 	}
 
 	return (
-		<div className="edit-task-modal">
-			<div className="edit-task">
-				<h2>Edit Task</h2>
-				<input value={taskName} type="text" placeholder="Task Name" onChange={setTaskName} />
-				<textarea value={taskDescription} placeholder="Task Description" onChange={setTaskDescription} />
-				<input value={taskDueDate} type="date" placeholder="Task Due Date" onChange={setTaskDueDate} />
-				<div className="button-container">
-					<button onClick={updateTask}>Update</button>
-					<button onClick={() => {}}>Cancel</button>
-				</div>
+		<div className="edit-task" id={data.id}>
+			<h2>Edit Task</h2>
+			<input value={taskName} type="text" placeholder="Task Name" onChange={setTaskName} />
+			<textarea value={taskDescription} placeholder="Task Description" onChange={setTaskDescription} />
+			<input value={taskDueDate ? taskDueDate.slice(0, 10) : ""} type="date" onChange={setTaskDueDate} />
+			<div className="button-container">
+				<button onClick={updateTask}>Update</button>
+				<button onClick={() => {}}>Cancel</button>
 			</div>
 		</div>
 	);

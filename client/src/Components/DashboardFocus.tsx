@@ -8,16 +8,16 @@ import { FocusState, useFocus } from "../Pages/Dashboard";
 import "./DashboardFocus.scss";
 
 export default function DashboardFocus() {
-	const { focusModal } = useFocus();
+	const { focusModal, data } = useFocus();
 
 	return (
 		<div className="dashboard-focus">
-			{focusModal === FocusState.ADD_TASK && <AddTaskModal />}
-			{focusModal === FocusState.EDIT_TASK && <EditTaskModal />}
-			{focusModal === FocusState.VIEW_TASK && <ViewTaskModal />}
-			{focusModal === FocusState.ADD_NOTE && <AddNoteModal />}
-			{focusModal === FocusState.EDIT_NOTE && <EditNoteModal />}
-			{focusModal === FocusState.VIEW_NOTE && <ViewNoteModal />}
+			{focusModal === FocusState.ADD_TASK && <AddTaskModal data={data} />}
+			{focusModal === FocusState.EDIT_TASK && <EditTaskModal data={data} />}
+			{focusModal === FocusState.VIEW_TASK && <ViewTaskModal data={data} />}
+			{focusModal === FocusState.ADD_NOTE && <AddNoteModal data={data} />}
+			{focusModal === FocusState.EDIT_NOTE && <EditNoteModal data={data} />}
+			{focusModal === FocusState.VIEW_NOTE && <ViewNoteModal data={data} />}
 		</div>
 	);
 }

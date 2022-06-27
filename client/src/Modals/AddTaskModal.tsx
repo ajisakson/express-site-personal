@@ -3,7 +3,7 @@ import { ChangeEvent, MouseEventHandler, useState } from "react";
 import createToken from "../Services/CreateToken";
 import "./AddTaskModal.scss";
 
-export default function AddTaskModal() {
+export default function AddTaskModal({ data }: any) {
 	const [taskName, updateTaskName] = useState("");
 	const [taskDescription, updateTaskDescription] = useState("");
 	const [taskDueDate, updateTaskDueDate] = useState("");

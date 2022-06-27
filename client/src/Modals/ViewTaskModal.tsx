@@ -1,17 +1,18 @@
+import { TaskStatus } from "../Components/Task";
 import { useFocus } from "../Pages/Dashboard";
 import "./ViewTaskModal.scss";
 
-export default function ViewTaskModal() {
-	const { data } = useFocus();
+export default function ViewTaskModal({ data }: any) {
+	console.log(data);
 	return (
 		<div className="view-task" id={data.id}>
 			<h1>VIEW TASK</h1>
 			<h1>{data.name}</h1>
 			<p>{data.description}</p>
-			<p>{data.due}</p>
-			<p>{data.created}</p>
-			<p>{data.updated}</p>
-			<p>{data.status}</p>
+			<p>Due: {data.dueDate}</p>
+			<p>Created: {data.createdDate}</p>
+			<p>Last Updated: {data.updatedDate}</p>
+			<p>{Object.values(TaskStatus)[data.status]}</p>
 		</div>
 	);
 }
