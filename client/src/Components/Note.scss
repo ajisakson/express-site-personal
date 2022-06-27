@@ -1,0 +1,17 @@
+@import '../colors';
+
+.note {
+	padding: 1rem;
+	border-radius: .25rem;
+	background-color: $lavender;
+	color: black;
+	margin-top: 1rem;
+	.button-container {
+		display: flex;
+		column-gap: 6px;
+		button {
+			align-items: center;
+			justify-content: center;
+		}
+	}
+}

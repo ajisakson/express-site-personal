@@ -1,15 +1,17 @@
 import axios from "axios";
 import { ChangeEvent, MouseEventHandler, useState } from "react";
+import { useFocus } from "../Pages/Dashboard";
 import createToken from "../Services/CreateToken";
 import "./EditTaskModal.scss";
 
-export default function EditTaskModal(task: any) {
-	const [taskName, updateTaskName] = useState(task.name);
-	const [taskDescription, updateTaskDescription] = useState(task.description);
-	const [taskDueDate, updateTaskDueDate] = useState(task.dueDate);
-	const [taskStatus, updateTaskStatus] = useState(task.status);
+export default function EditTaskModal() {
+	const { data } = useFocus();
 
-	const id = task.id;
+	const taskId = data.id;
+	const [taskName, updateTaskName] = useState(data.name);
+	const [taskDescription, updateTaskDescription] = useState(data.description);
+	const [taskDueDate, updateTaskDueDate] = useState(data.dueDate);
+	const [taskStatus, updateTaskStatus] = useState(data.status);
 
 	function setTaskDescription(event: ChangeEvent<HTMLTextAreaElement>) {
 		updateTaskDescription(event.target.value);
@@ -23,11 +25,10 @@ export default function EditTaskModal(task: any) {
 		updateTaskDueDate(event.target.value);
 	}
 
-	async function updateTask(props: any) {
-		console.log(props);
+	async function updateTask() {
 		const header = await createToken();
 		const payload = {
-			id: id,
+			id: taskId,
 			name: taskName,
 			description: taskDescription,
 			due_date: taskDueDate,
@@ -50,13 +51,7 @@ export default function EditTaskModal(task: any) {
 				<textarea value={taskDescription} placeholder="Task Description" onChange={setTaskDescription} />
 				<input value={taskDueDate} type="date" placeholder="Task Due Date" onChange={setTaskDueDate} />
 				<div className="button-container">
-					<button
-						onClick={() => {
-							updateTask({ id, taskName, taskDescription, taskDueDate, taskStatus });
-						}}
-					>
-						Update
-					</button>
+					<button onClick={updateTask}>Update</button>
 					<button onClick={() => {}}>Cancel</button>
 				</div>
 			</div>

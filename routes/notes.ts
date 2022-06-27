@@ -54,7 +54,6 @@ notesRouter.post("/", (req: any, res: Response) => {
 
 // update a user's task
 notesRouter.put("/", (req: Request, res: Response) => {
-	console.log(req.body.id);
 	Note.updateOne(
 		{ uuid: req.body.id },
 		{

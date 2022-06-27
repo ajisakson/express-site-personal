@@ -1,11 +1,14 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { FocusState, useFocus } from "../Pages/Dashboard";
 import createToken from "../Services/CreateToken";
 import Task from "./Task";
 import "./TaskList.scss";
 
 export default function TaskList() {
 	const [taskList, updateTaskList] = useState<any[]>([]);
+
+	const { setFocusModal, setData } = useFocus();
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -24,35 +27,9 @@ export default function TaskList() {
 		});
 	}
 
-	function viewTask(
-		id: String,
-		name: String,
-		description: String,
-		created: Date,
-		updated: Date,
-		due: Date,
-		status: number
-	) {
-		// TODO: send this to the DashboardFocus?
-		console.log(id, name, description, created, updated, due, status);
-	}
-
-	function editTask(
-		id: String,
-		name: String,
-		description: String,
-		created: Date,
-		updated: Date,
-		due: Date,
-		status: number
-	) {
-		// TODO: send this to the DashboardFocus?
-		console.log(id, name, description, created, updated, due, status);
-	}
-
 	function addTask() {
-		// TODO: send this to the DashboardFocus?
-		console.log("add a task");
+		setFocusModal(FocusState.ADD_TASK);
+		setData({});
 	}
 
 	return (
@@ -69,8 +46,6 @@ export default function TaskList() {
 					dueDate={task.due}
 					status={task.status}
 					onDelete={deleteTask}
-					onView={viewTask}
-					onEdit={editTask}
 				/>
 			))}
 		</div>

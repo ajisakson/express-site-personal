@@ -1,9 +1,10 @@
 import axios from "axios";
-import { ChangeEvent, ChangeEventHandler, useEffect, useState } from "react";
+import { ChangeEvent, ChangeEventHandler, useContext, useEffect, useState } from "react";
 import createToken from "../Services/CreateToken";
 import "./Task.scss";
 import "react-icons/md";
 import { MdDelete, MdModeEdit, MdOutlineVisibility } from "react-icons/md";
+import { FocusState, useFocus } from "../Pages/Dashboard";
 
 export const TaskStatus = {
 	0: "Todo",
@@ -22,11 +23,9 @@ export interface TaskProps {
 	dueDate: Date;
 	status: number;
 	onDelete: Function;
-	onView: Function;
-	onEdit: Function;
 }
 
-function Task({ id, name, description, createdDate, updatedDate, dueDate, status, onDelete, onView, onEdit }: TaskProps) {
+function Task({ id, name, description, createdDate, updatedDate, dueDate, status, onDelete }: TaskProps) {
 	const [taskStatus, setStatus] = useState(status);
 
 	function getOptions() {
@@ -36,6 +35,8 @@ function Task({ id, name, description, createdDate, updatedDate, dueDate, status
 	function updateStatus(event: ChangeEvent<HTMLSelectElement>) {
 		setStatus(parseInt(event.target.value));
 	}
+
+	const { setFocusModal, setData } = useFocus();
 
 	useEffect(() => {
 		saveTask();
@@ -56,6 +57,16 @@ function Task({ id, name, description, createdDate, updatedDate, dueDate, status
 		);
 	}
 
+	function onView() {
+		setFocusModal(FocusState.VIEW_TASK);
+		setData({ id, name, description, createdDate, updatedDate, dueDate, status });
+	}
+
+	function onEdit() {
+		setFocusModal(FocusState.EDIT_TASK);
+		setData({ id, name, description, createdDate, updatedDate, dueDate, status });
+	}
+
 	return (
 		<div className="task">
 			<div className="row-container">
@@ -71,10 +82,10 @@ function Task({ id, name, description, createdDate, updatedDate, dueDate, status
 				</div>
 			</div>
 			<div className="button-container">
-				<button onClick={() => onView({ id, name, description, createdDate, updatedDate, dueDate, status })}>
+				<button onClick={() => onView()}>
 					<MdOutlineVisibility />
 				</button>
-				<button onClick={() => onEdit({ id, name, description, dueDate, status })}>
+				<button onClick={() => onEdit()}>
 					<MdModeEdit />
 				</button>
 				<button onClick={() => onDelete(id)}>
