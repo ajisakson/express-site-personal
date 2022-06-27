@@ -35,9 +35,9 @@ export default function TaskList() {
 	return (
 		<div className="task-list">
 			<button onClick={addTask}>Create Task</button>
-			{taskList.map((task: any) => (
+			{taskList.map((task: any, index: number) => (
 				<Task
-					key={task.uuid}
+					key={index}
 					id={task.uuid}
 					name={task.name}
 					description={task.description}

@@ -20,6 +20,7 @@ export default function AddNoteModal({ data }: any) {
 		const header = await createToken();
 		const payload = {
 			name: noteName,
+			// @ts-ignore
 			content: editorRef.current?.getContent()
 		};
 		try {

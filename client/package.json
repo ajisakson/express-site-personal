@@ -16,7 +16,8 @@
 		"react-dnd": "^16.0.1",
 		"react-dom": "^18.0.0",
 		"react-icons": "^4.4.0",
-		"react-router-dom": "^6.3.0"
+		"react-router-dom": "^6.3.0",
+		"vanta": "^0.5.22"
 	},
 	"devDependencies": {
 		"@types/react": "^18.0.0",

@@ -3,8 +3,9 @@
 .note {
 	padding: 1rem;
 	border-radius: .25rem;
-	background-color: $lavender;
-	color: black;
+	background-color: rgb(55, 0, 55);
+	box-shadow: 0px 4px 8px 2px black;
+	color: white;
 	margin-top: 1rem;
 	.button-container {
 		display: flex;

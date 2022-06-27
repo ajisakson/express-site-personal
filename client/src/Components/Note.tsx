@@ -27,7 +27,7 @@ function Note({ id, name, content, createdDate, updatedDate, onDelete }: NotePro
 
 	return (
 		<div className="note" id={id}>
-			<h1>{name ? name : `Updated: ${updatedDate}`}</h1>
+			<h2>{name ? name : `Updated: ${updatedDate}`}</h2>
 			<div className="button-container">
 				<button onClick={() => onView()}>
 					<MdOutlineVisibility />

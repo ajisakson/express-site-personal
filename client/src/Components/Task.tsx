@@ -5,6 +5,7 @@ import "./Task.scss";
 import "react-icons/md";
 import { MdDelete, MdModeEdit, MdOutlineVisibility } from "react-icons/md";
 import { FocusState, useFocus } from "../Pages/Dashboard";
+import { idText } from "typescript";
 
 export const TaskStatus = {
 	0: "Todo",
@@ -15,9 +16,9 @@ export const TaskStatus = {
 };
 
 export interface TaskProps {
-	id: string;
-	name: string;
-	description: string;
+	id: String;
+	name: String;
+	description: String;
 	createdDate: Date;
 	updatedDate: Date;
 	dueDate: Date;
@@ -25,7 +26,7 @@ export interface TaskProps {
 	onDelete: Function;
 }
 
-function Task({ id, name, description, createdDate, updatedDate, dueDate, status, onDelete }: TaskProps) {
+function Task({ key, id, name, description, createdDate, updatedDate, dueDate, status, onDelete }: TaskProps) {
 	const [taskStatus, setStatus] = useState(status);
 	const isMounted = useRef(false);
 

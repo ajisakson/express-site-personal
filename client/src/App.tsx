@@ -1,13 +1,24 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import "./App.scss";
 import { onAuthStateChanged } from "firebase/auth";
 import auth from "./Services/AuthInitialize";
 import { checkServerStatus } from "./Services/CheckStatus";
+// @ts-ignore
+import WAVES from "vanta/dist/vanta.waves.min";
 
 function App() {
 	const [serverStatus, updateServerStatus] = useState(false);
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+	WAVES({
+		el: "body",
+		scale: 1.0,
+		scaleMobile: 1.0,
+		color: 0x12002d,
+		waveSpeed: 0.4,
+		zoom: 1.02
+	});
 
 	onAuthStateChanged(auth, (user) => {
 		return user ? setIsLoggedIn(true) : setIsLoggedIn(false);
@@ -20,9 +31,9 @@ function App() {
 			<div className="header-container">
 				<div className="title-container">
 					<h1>
-						isakson.<span className="blue">austin()</span>
+						byssen<span className="blue">dev</span>
 					</h1>
-					<h3>put something here</h3>
+					<h3>by Austin Isakson</h3>
 				</div>
 				<nav>
 					<Link to="/">Home</Link>

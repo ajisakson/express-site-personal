@@ -5,7 +5,7 @@ import createToken from "../Services/CreateToken";
 import Note from "./Note";
 import "./NoteList.scss";
 
-function NoteList() {
+export default function NoteList() {
 	const [noteList, updateNoteList] = useState<any[]>([]);
 
 	const { setData, setFocusModal } = useFocus();
@@ -49,5 +49,3 @@ function NoteList() {
 		</div>
 	);
 }
-
-export default NoteList;
