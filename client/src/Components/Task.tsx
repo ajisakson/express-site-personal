@@ -26,7 +26,7 @@ export interface TaskProps {
 	onDelete: Function;
 }
 
-function Task({ key, id, name, description, createdDate, updatedDate, dueDate, status, onDelete }: TaskProps) {
+function Task({ id, name, description, createdDate, updatedDate, dueDate, status, onDelete }: TaskProps) {
 	const [taskStatus, setStatus] = useState(status);
 	const isMounted = useRef(false);
 

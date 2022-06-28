@@ -34,7 +34,12 @@ export default function NoteList() {
 
 	return (
 		<div className="note-list">
-			<button onClick={addNote}>Create Note</button>
+			<div className="note-list-header">
+				Notes
+				<button id="add-note-button" onClick={addNote}>
+					+
+				</button>
+			</div>
 			{noteList.map((note: any) => (
 				<Note
 					key={note.uuid}

@@ -4,21 +4,20 @@ import "./App.scss";
 import { onAuthStateChanged } from "firebase/auth";
 import auth from "./Services/AuthInitialize";
 import { checkServerStatus } from "./Services/CheckStatus";
-// @ts-ignore
-import WAVES from "vanta/dist/vanta.waves.min";
+
+import Particles from "react-tsparticles";
+import { loadFull } from "tsparticles";
 
 function App() {
 	const [serverStatus, updateServerStatus] = useState(false);
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-	WAVES({
-		el: "body",
-		scale: 1.0,
-		scaleMobile: 1.0,
-		color: 0x12002d,
-		waveSpeed: 0.4,
-		zoom: 1.02
-	});
+	const particlesInit = async (main: any) => {
+		// you can initialize the tsParticles instance (main) here, adding custom shapes or presets
+		// this loads the tsparticles package bundle, it's the easiest method for getting everything ready
+		// starting from v2 you can add only the features you need reducing the bundle size
+		await loadFull(main);
+	};
 
 	onAuthStateChanged(auth, (user) => {
 		return user ? setIsLoggedIn(true) : setIsLoggedIn(false);

@@ -34,7 +34,12 @@ export default function TaskList() {
 
 	return (
 		<div className="task-list">
-			<button onClick={addTask}>Create Task</button>
+			<div className="task-list-header">
+				Tasks
+				<button id="add-task-button" onClick={addTask}>
+					+
+				</button>
+			</div>
 			{taskList.map((task: any, index: number) => (
 				<Task
 					key={index}

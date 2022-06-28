@@ -1,30 +1,39 @@
 import { Editor } from "@tinymce/tinymce-react";
+import MDEditor from "@uiw/react-md-editor";
 import axios from "axios";
 import { ChangeEvent, useRef, useState } from "react";
+import { MdCancel } from "react-icons/md";
 import createToken from "../Services/CreateToken";
 import "./AddNoteModal.scss";
 
 export default function AddNoteModal({ data }: any) {
-	const editorRef = useRef(null);
 	const [noteName, updateNoteName] = useState("");
+	const [noteMD, updateNoteMD] = useState("Start writing!");
+	const [saveButtonText, updateSaveButtonText] = useState("Save");
 
 	const cancel = () => {
-		console.log("cancel?");
+		console.log(noteName, noteMD);
 	};
 
 	function setNoteName(event: ChangeEvent<HTMLInputElement>) {
 		updateNoteName(event.target.value);
 	}
 
+	function setNoteMD(value: any) {
+		updateNoteMD(value);
+	}
+
 	async function createNote() {
+		updateSaveButtonText("Saving...");
 		const header = await createToken();
 		const payload = {
 			name: noteName,
-			// @ts-ignore
-			content: editorRef.current?.getContent()
+			content: noteMD
 		};
 		try {
-			const res = await axios.post("/api/notes", payload, header);
+			const res = await axios.post("/api/notes", payload, header).then(() => {
+				updateSaveButtonText("Saved!");
+			});
 		} catch (e) {
 			console.error(e);
 		}
@@ -32,45 +41,24 @@ export default function AddNoteModal({ data }: any) {
 
 	return (
 		<div className="add-note">
-			<input type="text" placeholder="Enter Title Here" onChange={setNoteName} />
-			<Editor
-				apiKey="ydj4d2orswa7trvv0onl39ecafbntamlkbxnhmdwwc4femv2"
-				// @ts-ignore
-				onInit={(evt, editor) => (editorRef.current = editor)}
-				initialValue="<p>This is the initial content of the editor.</p>"
-				init={{
-					height: 500,
-					menubar: true,
-					plugins: [
-						"advlist",
-						"autolink",
-						"lists",
-						"link",
-						"image",
-						"charmap",
-						"preview",
-						"anchor",
-						"searchreplace",
-						"visualblocks",
-						"code",
-						"fullscreen",
-						"insertdatetime",
-						"media",
-						"table",
-						"code",
-						"help",
-						"wordcount"
-					],
-					toolbar:
-						"undo redo | blocks | " +
-						"bold italic forecolor | alignleft aligncenter " +
-						"alignright alignjustify | bullist numlist outdent indent | " +
-						"removeformat | code | help",
-					content_style: "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }"
-				}}
+			<input id="title-input" type="text" placeholder="Enter Title Here" onChange={setNoteName} />
+			<MDEditor
+				value={noteMD}
+				onChange={setNoteMD}
+				autoFocus={true}
+				tabSize={4}
+				minHeight={400}
+				height={400}
+				style={{ padding: "16px", borderRadius: "4px" }}
 			/>
-			<button onClick={createNote}>Save Note</button>
-			<button onClick={cancel}>Cancel</button>
+			<div>
+				<button id="save-button" onClick={createNote}>
+					{saveButtonText}
+				</button>
+				<button id="cancel-button" onClick={cancel}>
+					<MdCancel />
+				</button>
+			</div>
 		</div>
 	);
 }

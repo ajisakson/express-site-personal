@@ -1,3 +1,9 @@
 .view-note {
-	
+	display: flex;
+	flex-direction: column;
+	row-gap: 16px;
+	.view-note-header {
+		font-size: 36px;
+		font-weight: 700;
+	}
 }
