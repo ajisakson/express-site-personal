@@ -4,11 +4,11 @@ import EditNoteModal from "../Modals/EditNoteModal";
 import EditTaskModal from "../Modals/EditTaskModal";
 import ViewNoteModal from "../Modals/ViewNoteModal";
 import ViewTaskModal from "../Modals/ViewTaskModal";
-import { FocusState, useFocus } from "../Pages/Dashboard";
+import { FocusState, useDashboard } from "../Pages/Dashboard";
 import "./DashboardFocus.scss";
 
 export default function DashboardFocus() {
-	const { focusModal, data } = useFocus();
+	const { focusModal, data } = useDashboard();
 
 	return (
 		<div className="dashboard-focus">

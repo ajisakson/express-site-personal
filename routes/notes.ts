@@ -48,7 +48,7 @@ notesRouter.post("/", (req: any, res: Response) => {
 	});
 
 	aNote.save().then(() => {
-		res.send({ task: aNote });
+		res.send({ note: aNote });
 	});
 });
 
@@ -64,7 +64,10 @@ notesRouter.put("/", (req: Request, res: Response) => {
 			}
 		}
 	).then((result) => {
-		res.send(result);
+		res.send({
+			result,
+			note: { uuid: req.body.id, name: req.body.name, content: req.body.content, updated: new Date() }
+		});
 	});
 });
 

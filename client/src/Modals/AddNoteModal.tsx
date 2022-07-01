@@ -3,6 +3,7 @@ import MDEditor from "@uiw/react-md-editor";
 import axios from "axios";
 import { ChangeEvent, useRef, useState } from "react";
 import { MdCancel } from "react-icons/md";
+import { useDashboard } from "../Pages/Dashboard";
 import createToken from "../Services/CreateToken";
 import "./AddNoteModal.scss";
 
@@ -10,6 +11,7 @@ export default function AddNoteModal({ data }: any) {
 	const [noteName, updateNoteName] = useState("");
 	const [noteMD, updateNoteMD] = useState("Start writing!");
 	const [saveButtonText, updateSaveButtonText] = useState("Save");
+	const { notes, setNotes } = useDashboard();
 
 	const cancel = () => {
 		console.log(noteName, noteMD);
@@ -31,8 +33,9 @@ export default function AddNoteModal({ data }: any) {
 			content: noteMD
 		};
 		try {
-			const res = await axios.post("/api/notes", payload, header).then(() => {
+			const res = await axios.post("/api/notes", payload, header).then((result) => {
 				updateSaveButtonText("Saved!");
+				setNotes([result.data.note, ...notes]);
 			});
 		} catch (e) {
 			console.error(e);

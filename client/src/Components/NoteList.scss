@@ -1,5 +1,6 @@
 .note-list {
 	width: 320px;
+	flex-shrink: 0;
 	.note-list-header {
 		display: flex;
 		align-items: center;

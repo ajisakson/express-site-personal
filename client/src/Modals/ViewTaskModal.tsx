@@ -1,5 +1,4 @@
 import { TaskStatus } from "../Components/Task";
-import { useFocus } from "../Pages/Dashboard";
 import "./ViewTaskModal.scss";
 
 export default function ViewTaskModal({ data }: any) {

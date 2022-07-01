@@ -4,7 +4,7 @@ import createToken from "../Services/CreateToken";
 import "./Task.scss";
 import "react-icons/md";
 import { MdDelete, MdModeEdit, MdOutlineVisibility } from "react-icons/md";
-import { FocusState, useFocus } from "../Pages/Dashboard";
+import { FocusState, useDashboard } from "../Pages/Dashboard";
 import { idText } from "typescript";
 
 export const TaskStatus = {
@@ -38,7 +38,7 @@ function Task({ id, name, description, createdDate, updatedDate, dueDate, status
 		setStatus(parseInt(event.target.value));
 	}
 
-	const { setFocusModal, setData } = useFocus();
+	const { setFocusModal, setData } = useDashboard();
 
 	useEffect(() => {
 		if (isMounted.current) {

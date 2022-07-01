@@ -4,8 +4,6 @@ import createToken from "../Services/CreateToken";
 import "./EditTaskModal.scss";
 
 export default function EditTaskModal({ data }: any) {
-	// const { data } = useFocus();
-
 	const taskId = data.id;
 	const [taskName, updateTaskName] = useState(data.name);
 	const [taskDescription, updateTaskDescription] = useState(data.description);

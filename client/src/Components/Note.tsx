@@ -1,7 +1,7 @@
 import { Editor } from "@tinymce/tinymce-react";
 import { useRef, useState } from "react";
 import { MdOutlineVisibility, MdModeEdit, MdDelete } from "react-icons/md";
-import { FocusState, useFocus } from "../Pages/Dashboard";
+import { FocusState, useDashboard } from "../Pages/Dashboard";
 import "./Note.scss";
 
 export interface NoteProps {
@@ -14,7 +14,7 @@ export interface NoteProps {
 }
 
 function Note({ id, name, content, createdDate, updatedDate, onDelete }: NoteProps) {
-	const { setData, setFocusModal } = useFocus();
+	const { setData, setFocusModal } = useDashboard();
 
 	function onView() {
 		setFocusModal(FocusState.VIEW_NOTE);

@@ -1,5 +1,6 @@
 .task-list {
 	width: 320px;
+	flex-shrink: 0;
 	.task-list-header {
 		display: flex;
 		align-items: center;

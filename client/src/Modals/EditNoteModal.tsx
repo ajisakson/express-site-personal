@@ -2,6 +2,7 @@ import MDEditor from "@uiw/react-md-editor";
 import axios from "axios";
 import { ChangeEvent, useEffect, useState } from "react";
 import { MdCancel } from "react-icons/md";
+import { useDashboard } from "../Pages/Dashboard";
 import createToken from "../Services/CreateToken";
 import "./EditNoteModal.scss";
 
@@ -9,6 +10,7 @@ export default function EditNoteModal({ data }: any) {
 	const [noteName, updateNoteName] = useState(data.name);
 	const [noteMD, updateNoteMD] = useState(data.content);
 	const [saveButtonText, updateSaveButtonText] = useState("Save");
+	const { notes, setNotes } = useDashboard();
 
 	useEffect(() => {
 		updateNoteName(data.name);
@@ -28,10 +30,21 @@ export default function EditNoteModal({ data }: any) {
 				},
 				header
 			)
-			.then(() => {
+			.then((res) => {
 				updateSaveButtonText("Saved!");
+				setNotes(
+					notes.map((note: any) => {
+						if (note.uuid === res.data.note.uuid) {
+							note.name = res.data.note.name;
+							note.content = res.data.note.content;
+							note.updated = res.data.note.updated;
+						}
+						return note;
+					})
+				);
 			});
 	}
+
 	const cancel = () => {
 		console.log("cancel?");
 	};
@@ -43,6 +56,7 @@ export default function EditNoteModal({ data }: any) {
 
 	function setNoteMD(value: any) {
 		updateNoteMD(value);
+		updateSaveButtonText("Save");
 	}
 
 	return (
