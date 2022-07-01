@@ -1,10 +1,12 @@
+@import "../colors";
+
 .edit-task {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 	.edit-task {
-		background-color: black;
+		background-color: $darkmain;
 		display: flex;
 		flex-direction: column;
 	}

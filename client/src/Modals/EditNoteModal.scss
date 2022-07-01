@@ -1,13 +1,14 @@
+@import "../colors";
 .edit-note {
 	display: flex;
 	flex-direction: column;
 	row-gap: 16px;
 	#title-input {
 		color: white;
-		background-color: black;
+		background-color: $darkmain;
 		border-radius: 4px;
 		padding: 8px;
-		font-size: 16px;
+		font-size: 24px;
 		width: calc(100% - 20px);
 		outline: none;
 		border: none;
@@ -15,7 +16,7 @@
 	#save-button,
 	#cancel-button {
 		color: white;
-		background-color: black;
+		background-color: $darkmain;
 		font-size: 16px;
 		padding: 8px;
 		border: none;

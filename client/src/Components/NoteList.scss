@@ -1,14 +1,28 @@
-.note-list {
+@import "../colors";
+#note-list {
 	width: 320px;
 	flex-shrink: 0;
-	.note-list-header {
+	#note-list-header {
 		display: flex;
 		align-items: center;
 		font-size: 36px;
 		font-weight: 700;
 		justify-content: space-between;
+		#collapse-button {
+			all: unset;
+			background-color: $darkmain;
+			color: white;
+			height: 48px;
+			width: 48px;
+			text-align: center;
+			border-radius: 50%;
+			svg {
+				height: 100%;
+				width: 100%;
+			}
+		}
 		#add-note-button {
-			background-color: black;
+			background-color: $darkmain;
 			color: white;
 			height: 48px;
 			width: 48px;
@@ -22,6 +36,14 @@
 			&:active {
 				opacity: 0.7;
 			}
+		}
+	}
+	#note-list-main {
+		&.open {
+		}
+		&.closed {
+			height: 0px;
+			overflow: hidden;
 		}
 	}
 }

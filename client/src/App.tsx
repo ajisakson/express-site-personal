@@ -15,7 +15,6 @@ function App() {
 
 	onAuthStateChanged(auth, (user) => {
 		if (user) {
-			console.log(user);
 			setUser(user);
 		} else {
 			setUser(null);
@@ -29,10 +28,9 @@ function App() {
 			<div className="App">
 				<div className="header-container">
 					<div className="title-container">
-						<h1>
+						<div>
 							byssen<span className="blue">dev</span>
-						</h1>
-						<h3>by Austin Isakson</h3>
+						</div>
 					</div>
 					<nav>
 						<Link to="/">Home</Link>

@@ -1,5 +1,3 @@
-import { Editor } from "@tinymce/tinymce-react";
-import { useRef, useState } from "react";
 import { MdOutlineVisibility, MdModeEdit, MdDelete } from "react-icons/md";
 import { FocusState, useDashboard } from "../Pages/Dashboard";
 import "./Note.scss";
@@ -25,9 +23,17 @@ function Note({ id, name, content, createdDate, updatedDate, onDelete }: NotePro
 		setData({ id, name, content, createdDate, updatedDate });
 	}
 
+	function mdUpdated(date: Date) {
+		date = new Date(date);
+		const day = date.getDate();
+		const month = date.getMonth();
+		return `${day} ${month}`;
+	}
+
 	return (
 		<div className="note" id={id}>
-			<h2>{name ? name : `Updated: ${updatedDate}`}</h2>
+			<div>{name ? name : `Updated: ${updatedDate}`}</div>
+			<div>{mdUpdated(updatedDate)}</div>
 			<div className="button-container">
 				<button onClick={() => onView()}>
 					<MdOutlineVisibility />

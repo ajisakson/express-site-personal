@@ -39,7 +39,7 @@ function Dashboard() {
 	const [data, setData] = useState({});
 	const [tasks, setTasks] = useState([]);
 	const [notes, setNotes] = useState([]);
-	const appUser = useAuth();
+	const { appUser } = useAuth();
 	const value: FocusInterface = { focusModal, setFocusModal, data, setData, tasks, setTasks, notes, setNotes };
 
 	useEffect(() => {
@@ -67,8 +67,8 @@ function Dashboard() {
 			<div className="dashboard-page">
 				<div className="main-ui">
 					<TaskList />
-					<DashboardFocus />
 					<NoteList />
+					<DashboardFocus />
 				</div>
 			</div>
 		</DashboardContext.Provider>
