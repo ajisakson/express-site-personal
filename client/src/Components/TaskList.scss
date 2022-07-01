@@ -1,7 +1,5 @@
 @import "../colors";
 #task-list {
-	width: 320px;
-	flex-shrink: 0;
 	#task-list-header {
 		display: flex;
 		align-items: center;
@@ -40,8 +38,10 @@
 	}
 	#task-list-main {
 		&.open {
+			width: 350px;
 		}
 		&.closed {
+			width: 0px;
 			height: 0px;
 			overflow: hidden;
 		}

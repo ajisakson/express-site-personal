@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { MdArrowDropDown, MdArrowDropUp } from "react-icons/md";
+import { MdArrowDropDown, MdArrowDropUp, MdArrowLeft, MdArrowRight, MdChecklist } from "react-icons/md";
 import { FocusState, useDashboard } from "../Pages/Dashboard";
 import createToken from "../Services/CreateToken";
 import Task from "./Task";
@@ -32,12 +32,14 @@ export default function TaskList() {
 						setListCollapsed(!listCollapsed);
 					}}
 				>
-					{listCollapsed ? <MdArrowDropDown /> : <MdArrowDropUp />}
+					{!listCollapsed ? <MdArrowLeft /> : <MdArrowRight />}
 				</button>
-				Tasks
-				<button id="add-task-button" onClick={addTask}>
-					+
-				</button>
+				{listCollapsed ? <MdChecklist /> : "Tasks"}
+				{!listCollapsed && (
+					<button id="add-task-button" onClick={addTask}>
+						+
+					</button>
+				)}
 			</div>
 			<div id="task-list-main" className={listCollapsed ? "closed" : "open"}>
 				{tasks.map((task: any, index: number) => (

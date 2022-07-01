@@ -1,7 +1,5 @@
 @import "../colors";
 #note-list {
-	width: 320px;
-	flex-shrink: 0;
 	#note-list-header {
 		display: flex;
 		align-items: center;
@@ -40,8 +38,10 @@
 	}
 	#note-list-main {
 		&.open {
+			width: 350px;
 		}
 		&.closed {
+			width: 0px;
 			height: 0px;
 			overflow: hidden;
 		}

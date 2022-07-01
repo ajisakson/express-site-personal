@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { MdArrowDropDown, MdArrowDropUp } from "react-icons/md";
+import { MdArrowDropDown, MdArrowDropUp, MdArrowLeft, MdArrowRight, MdEditNote } from "react-icons/md";
 import { FocusState, useDashboard } from "../Pages/Dashboard";
 import createToken from "../Services/CreateToken";
 import Note from "./Note";
@@ -32,12 +32,14 @@ export default function NoteList() {
 						setListCollapsed(!listCollapsed);
 					}}
 				>
-					{listCollapsed ? <MdArrowDropDown /> : <MdArrowDropUp />}
+					{listCollapsed ? <MdArrowRight /> : <MdArrowLeft />}
 				</button>
-				Notes
-				<button id="add-note-button" onClick={addNote}>
-					+
-				</button>
+				{listCollapsed ? <MdEditNote /> : "Notes"}
+				{!listCollapsed && (
+					<button id="add-note-button" onClick={addNote}>
+						+
+					</button>
+				)}
 			</div>
 			<div id="note-list-main" className={listCollapsed ? "closed" : "open"}>
 				{notes.map((note: any) => (
