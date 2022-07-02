@@ -19,6 +19,7 @@
 	}
 	#save-button,
 	#cancel-button {
+		all: unset;
 		color: white;
 		background-color: $darkmain;
 		font-size: 16px;

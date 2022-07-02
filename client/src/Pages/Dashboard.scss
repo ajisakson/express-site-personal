@@ -1,15 +1,14 @@
+@import "../colors";
 .dashboard-page {
 	padding: 1rem;
-	.new-task{
-		display: flex;
-		flex-direction: column;
-		.button-container {
-			display: flex;
-			button {
-				padding: 16px;
-				flex-grow: 1;
-			}
-		}
+	overflow-y: scroll;
+
+	.crypto-data {
+		background-color: $darkmain;
+		border-radius: 8px;
+		padding: 1rem;
+		width: fit-content;
+		margin-bottom: 8px;
 	}
 	.main-ui {
 		display: flex;

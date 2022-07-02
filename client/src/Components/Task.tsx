@@ -6,6 +6,7 @@ import "react-icons/md";
 import { MdDelete, MdModeEdit, MdOutlineVisibility } from "react-icons/md";
 import { FocusState, useDashboard } from "../Pages/Dashboard";
 import { idText } from "typescript";
+import { DateTime } from "luxon";
 
 export const TaskStatus = {
 	0: "Todo",
@@ -74,18 +75,17 @@ function Task({ id, name, description, createdDate, updatedDate, dueDate, status
 	}
 
 	return (
-		<div className="task">
+		<div className={`task ${Object.values(TaskStatus)[taskStatus]}`}>
 			<div className="row-container">
-				<div className={`status-container ${Object.values(TaskStatus)[taskStatus]}`}></div>
 				<div className="task-info">
 					<div>{name}</div>
-					{/* <p>{description}</p> */}
 				</div>
 				<div className="task-date-info">
-					{dueDate && <p>{new Date(dueDate).toLocaleDateString()}</p>}
-					{/* <p>{createdDate}</p> */}
-					{/* <p>{updatedDate}</p> */}
+					{dueDate && <p>Due: {DateTime.fromISO(dueDate).toLocaleString(DateTime.DATE_MED)}</p>}
 				</div>
+				<select defaultValue={taskStatus} onChange={updateStatus}>
+					{getOptions()}
+				</select>
 			</div>
 			<div className="button-container">
 				<button onClick={() => onView()}>
@@ -97,9 +97,6 @@ function Task({ id, name, description, createdDate, updatedDate, dueDate, status
 				<button onClick={() => onDelete(id)}>
 					<MdDelete />
 				</button>
-				<select defaultValue={taskStatus} onChange={updateStatus}>
-					{getOptions()}
-				</select>
 			</div>
 		</div>
 	);

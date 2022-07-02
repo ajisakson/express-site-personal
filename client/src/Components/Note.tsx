@@ -1,5 +1,6 @@
 import { MdOutlineVisibility, MdModeEdit, MdDelete } from "react-icons/md";
 import { FocusState, useDashboard } from "../Pages/Dashboard";
+import { DateTime } from "luxon";
 import "./Note.scss";
 
 export interface NoteProps {
@@ -23,17 +24,12 @@ function Note({ id, name, content, createdDate, updatedDate, onDelete }: NotePro
 		setData({ id, name, content, createdDate, updatedDate });
 	}
 
-	function mdUpdated(date: Date) {
-		date = new Date(date);
-		const day = date.getDate();
-		const month = date.getMonth();
-		return `${day} ${month}`;
-	}
-
 	return (
 		<div className="note" id={id}>
-			<div>{name ? name : `Updated: ${updatedDate}`}</div>
-			<div>{mdUpdated(updatedDate)}</div>
+			<div className="row-container">
+				<div className="note-name">{name ? name : `Updated: ${updatedDate}`}</div>
+				<div className="updated-date">{DateTime.fromISO(updatedDate).toLocaleString(DateTime.DATE_MED)}</div>
+			</div>
 			<div className="button-container">
 				<button onClick={() => onView()}>
 					<MdOutlineVisibility />

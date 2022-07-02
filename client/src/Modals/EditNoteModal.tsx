@@ -1,7 +1,8 @@
 import MDEditor from "@uiw/react-md-editor";
 import axios from "axios";
 import { ChangeEvent, useEffect, useState } from "react";
-import { MdCancel } from "react-icons/md";
+import { MdCancel, MdCheck } from "react-icons/md";
+import LoadingIcons from "react-loading-icons";
 import { useDashboard } from "../Pages/Dashboard";
 import createToken from "../Services/CreateToken";
 import "./EditNoteModal.scss";
@@ -9,7 +10,7 @@ import "./EditNoteModal.scss";
 export default function EditNoteModal({ data }: any) {
 	const [noteName, updateNoteName] = useState(data.name);
 	const [noteMD, updateNoteMD] = useState(data.content);
-	const [saveButtonText, updateSaveButtonText] = useState("Save");
+	const [saveButtonText, updateSaveButtonText] = useState(<MdCheck />);
 	const { notes, setNotes } = useDashboard();
 
 	useEffect(() => {
@@ -18,7 +19,7 @@ export default function EditNoteModal({ data }: any) {
 	}, [data]);
 
 	async function saveNote() {
-		updateSaveButtonText("Saving...");
+		updateSaveButtonText(<LoadingIcons.TailSpin height="16px" width="16px" />);
 		const header = await createToken();
 		axios
 			.put(
@@ -31,7 +32,7 @@ export default function EditNoteModal({ data }: any) {
 				header
 			)
 			.then((res) => {
-				updateSaveButtonText("Saved!");
+				updateSaveButtonText(<MdCheck color="green" />);
 				setNotes(
 					notes.map((note: any) => {
 						if (note.uuid === res.data.note.uuid) {
@@ -51,12 +52,12 @@ export default function EditNoteModal({ data }: any) {
 
 	function setNoteName(event: ChangeEvent<HTMLInputElement>) {
 		updateNoteName(event.target.value);
-		updateSaveButtonText("Save");
+		updateSaveButtonText(<MdCheck />);
 	}
 
 	function setNoteMD(value: any) {
 		updateNoteMD(value);
-		updateSaveButtonText("Save");
+		updateSaveButtonText(<MdCheck />);
 	}
 
 	return (

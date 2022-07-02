@@ -2,7 +2,8 @@ import { Editor } from "@tinymce/tinymce-react";
 import MDEditor from "@uiw/react-md-editor";
 import axios from "axios";
 import { ChangeEvent, useRef, useState } from "react";
-import { MdCancel } from "react-icons/md";
+import { MdCancel, MdCheck } from "react-icons/md";
+import LoadingIcons from "react-loading-icons";
 import { useDashboard } from "../Pages/Dashboard";
 import createToken from "../Services/CreateToken";
 import "./AddNoteModal.scss";
@@ -10,7 +11,7 @@ import "./AddNoteModal.scss";
 export default function AddNoteModal({ data }: any) {
 	const [noteName, updateNoteName] = useState("");
 	const [noteMD, updateNoteMD] = useState("Start writing!");
-	const [saveButtonText, updateSaveButtonText] = useState("Save");
+	const [saveButtonText, updateSaveButtonText] = useState(<MdCheck />);
 	const { notes, setNotes } = useDashboard();
 
 	const cancel = () => {
@@ -26,7 +27,7 @@ export default function AddNoteModal({ data }: any) {
 	}
 
 	async function createNote() {
-		updateSaveButtonText("Saving...");
+		updateSaveButtonText(<LoadingIcons.TailSpin height="16px" width="16px" />);
 		const header = await createToken();
 		const payload = {
 			name: noteName,
@@ -34,7 +35,7 @@ export default function AddNoteModal({ data }: any) {
 		};
 		try {
 			const res = await axios.post("/api/notes", payload, header).then((result) => {
-				updateSaveButtonText("Saved!");
+				updateSaveButtonText(<MdCheck color="green" />);
 				setNotes([result.data.note, ...notes]);
 			});
 		} catch (e) {

@@ -40,31 +40,45 @@ function Dashboard() {
 	const [tasks, setTasks] = useState([]);
 	const [notes, setNotes] = useState([]);
 	const { appUser } = useAuth();
+	const [cryptoData, setCryptoData] = useState([{ name: "Loading", price_usd: 69.0 }]);
 	const value: FocusInterface = { focusModal, setFocusModal, data, setData, tasks, setTasks, notes, setNotes };
 
 	useEffect(() => {
 		if (!appUser) return;
 		const fetchData = async () => {
 			const header = await createToken();
-			const res = await axios.get("/api/tasks", header);
-			setTasks(res.data);
+			const tasksRes = await axios.get("/api/tasks", header);
+			const notesRes = await axios.get("/api/notes", header);
+			setTasks(tasksRes.data);
+			setNotes(notesRes.data);
 		};
 		fetchData();
 	}, [appUser]);
 
 	useEffect(() => {
-		if (!appUser) return;
-		const fetchData = async () => {
-			const header = await createToken();
-			const res = await axios.get("/api/notes", header);
-			setNotes(res.data);
+		const fetchCrypto = async () => {
+			axios
+				.get("https://rest-sandbox.coinapi.io/v1/assets?filter_asset_id=BTC,ETH,ADA", {
+					headers: { "X-CoinAPI-Key": "35D5CDA0-95EC-4937-AD77-1CA5934F5077" }
+				})
+				.then((res) => {
+					console.log(res.data);
+					setCryptoData(res.data);
+				});
 		};
-		fetchData();
-	}, [appUser]);
+		fetchCrypto();
+	}, []);
 
 	return (
 		<DashboardContext.Provider value={value}>
 			<div className="dashboard-page">
+				<div className="crypto-data">
+					{cryptoData.map((coin) => (
+						<div>
+							<b>{coin.name}</b>: ${coin.price_usd.toFixed(2)}
+						</div>
+					))}
+				</div>
 				<div className="main-ui">
 					<TaskList />
 					<NoteList />
