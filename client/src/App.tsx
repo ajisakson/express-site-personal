@@ -1,23 +1,28 @@
 import { createContext, useContext, useState } from "react";
 import { Link, Outlet } from "react-router-dom";
 import "./App.scss";
-import { onAuthStateChanged } from "firebase/auth";
+import { onAuthStateChanged, User } from "firebase/auth";
 import auth from "./Services/AuthInitialize";
 import { checkServerStatus } from "./Services/CheckStatus";
 
-export const AuthContext = createContext([]);
+export interface AuthInterface {
+	appUser: User | null;
+	setUser: React.Dispatch<React.SetStateAction<User>>;
+}
+
+export const AuthContext = createContext({} as AuthInterface);
 export const useAuth = () => useContext(AuthContext);
 
 function App() {
 	const [serverStatus, updateServerStatus] = useState(false);
-	const [appUser, setUser] = useState(null);
-	const authHandler = { appUser, setUser };
+	const [appUser, setUser] = useState({} as User);
+	const authHandler: AuthInterface = { appUser, setUser };
 
 	onAuthStateChanged(auth, (user) => {
 		if (user) {
 			setUser(user);
 		} else {
-			setUser(null);
+			setUser({} as User);
 		}
 	});
 

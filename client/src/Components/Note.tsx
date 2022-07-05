@@ -8,7 +8,7 @@ export interface NoteProps {
 	name: string;
 	content: string;
 	createdDate: Date;
-	updatedDate: Date;
+	updatedDate: string;
 	onDelete: Function;
 }
 

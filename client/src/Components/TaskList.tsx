@@ -1,6 +1,6 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
-import { MdArrowDropDown, MdArrowDropUp, MdArrowLeft, MdArrowRight, MdChecklist } from "react-icons/md";
+import { useState } from "react";
+import { MdArrowLeft, MdArrowRight, MdChecklist } from "react-icons/md";
 import { FocusState, useDashboard } from "../Pages/Dashboard";
 import createToken from "../Services/CreateToken";
 import Task from "./Task";
@@ -44,8 +44,7 @@ export default function TaskList() {
 			<div id="task-list-main" className={listCollapsed ? "closed" : "open"}>
 				{tasks.map((task: any, index: number) => (
 					<Task
-						key={index}
-						id={task.uuid}
+						uuid={task.uuid}
 						name={task.name}
 						description={task.description}
 						createdDate={task.created}

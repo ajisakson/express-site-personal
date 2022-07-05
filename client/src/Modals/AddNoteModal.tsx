@@ -1,8 +1,7 @@
-import { Editor } from "@tinymce/tinymce-react";
 import MDEditor from "@uiw/react-md-editor";
 import axios from "axios";
-import { ChangeEvent, useRef, useState } from "react";
-import { MdCancel, MdCheck } from "react-icons/md";
+import { ChangeEvent, useState } from "react";
+import { MdCheck } from "react-icons/md";
 import LoadingIcons from "react-loading-icons";
 import { useDashboard } from "../Pages/Dashboard";
 import createToken from "../Services/CreateToken";
@@ -14,20 +13,18 @@ export default function AddNoteModal({ data }: any) {
 	const [saveButtonText, updateSaveButtonText] = useState(<MdCheck />);
 	const { notes, setNotes } = useDashboard();
 
-	const cancel = () => {
-		console.log(noteName, noteMD);
-	};
-
 	function setNoteName(event: ChangeEvent<HTMLInputElement>) {
 		updateNoteName(event.target.value);
+		updateSaveButtonText(<MdCheck />);
 	}
 
 	function setNoteMD(value: any) {
 		updateNoteMD(value);
+		updateSaveButtonText(<MdCheck />);
 	}
 
 	async function createNote() {
-		updateSaveButtonText(<LoadingIcons.TailSpin height="16px" width="16px" />);
+		updateSaveButtonText(<LoadingIcons.TailSpin height="32px" width="32px" />);
 		const header = await createToken();
 		const payload = {
 			name: noteName,
@@ -45,7 +42,12 @@ export default function AddNoteModal({ data }: any) {
 
 	return (
 		<div className="add-note">
-			<input id="title-input" type="text" placeholder="Enter Title Here" onChange={setNoteName} />
+			<div className="add-note-header">
+				<input id="title-input" type="text" placeholder="Enter Title Here" onChange={setNoteName} />
+				<button id="save-button" onClick={createNote}>
+					{saveButtonText}
+				</button>
+			</div>
 			<MDEditor
 				value={noteMD}
 				onChange={setNoteMD}
@@ -55,14 +57,6 @@ export default function AddNoteModal({ data }: any) {
 				height={400}
 				style={{ padding: "16px", borderRadius: "4px" }}
 			/>
-			<div>
-				<button id="save-button" onClick={createNote}>
-					{saveButtonText}
-				</button>
-				<button id="cancel-button" onClick={cancel}>
-					<MdCancel />
-				</button>
-			</div>
 		</div>
 	);
 }

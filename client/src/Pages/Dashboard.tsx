@@ -1,12 +1,11 @@
 import axios from "axios";
 import React, { createContext, useContext, useEffect } from "react";
 import { useState } from "react";
-import { useDrag } from "react-dnd";
-import { AuthContext, useAuth } from "../App";
+import { useAuth } from "../App";
 import DashboardFocus from "../Components/DashboardFocus";
-import Note from "../Components/Note";
+import { NoteProps } from "../Components/Note";
 import NoteList from "../Components/NoteList";
-import Task from "../Components/Task";
+import { TaskProps } from "../Components/Task";
 import TaskList from "../Components/TaskList";
 import createToken from "../Services/CreateToken";
 import "./Dashboard.scss";
@@ -25,10 +24,10 @@ export interface FocusInterface {
 	setFocusModal: React.Dispatch<React.SetStateAction<FocusState>>;
 	data: Record<string, any>;
 	setData: React.Dispatch<React.SetStateAction<{}>>;
-	tasks: any;
-	setTasks: React.Dispatch<React.SetStateAction<any[]>>;
-	notes: any;
-	setNotes: React.Dispatch<React.SetStateAction<any[]>>;
+	tasks: Array<TaskProps>;
+	setTasks: React.Dispatch<React.SetStateAction<TaskProps[]>>;
+	notes: Array<NoteProps>;
+	setNotes: React.Dispatch<React.SetStateAction<NoteProps[]>>;
 }
 
 export const DashboardContext = createContext({} as FocusInterface);
@@ -37,8 +36,8 @@ export const useDashboard = () => useContext(DashboardContext);
 function Dashboard() {
 	const [focusModal, setFocusModal] = useState(FocusState.ADD_NOTE);
 	const [data, setData] = useState({});
-	const [tasks, setTasks] = useState([]);
-	const [notes, setNotes] = useState([]);
+	const [tasks, setTasks] = useState([] as Array<TaskProps>);
+	const [notes, setNotes] = useState([] as Array<NoteProps>);
 	const { appUser } = useAuth();
 	const [cryptoData, setCryptoData] = useState([{ name: "Loading", price_usd: 69.0 }]);
 	const value: FocusInterface = { focusModal, setFocusModal, data, setData, tasks, setTasks, notes, setNotes };
@@ -62,7 +61,6 @@ function Dashboard() {
 					headers: { "X-CoinAPI-Key": "35D5CDA0-95EC-4937-AD77-1CA5934F5077" }
 				})
 				.then((res) => {
-					console.log(res.data);
 					setCryptoData(res.data);
 				});
 		};
@@ -75,7 +73,7 @@ function Dashboard() {
 				<div className="crypto-data">
 					{cryptoData.map((coin) => (
 						<div>
-							<b>{coin.name}</b>: ${coin.price_usd.toFixed(2)}
+							<b>{coin.name}</b> ${coin.price_usd.toFixed(2)}
 						</div>
 					))}
 				</div>

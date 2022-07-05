@@ -5,7 +5,6 @@ import "./Task.scss";
 import "react-icons/md";
 import { MdDelete, MdModeEdit, MdOutlineVisibility } from "react-icons/md";
 import { FocusState, useDashboard } from "../Pages/Dashboard";
-import { idText } from "typescript";
 import { DateTime } from "luxon";
 
 export const TaskStatus = {
@@ -17,17 +16,17 @@ export const TaskStatus = {
 };
 
 export interface TaskProps {
-	id: String;
+	uuid: String;
 	name: String;
-	description: String;
-	createdDate: Date;
-	updatedDate: Date;
-	dueDate: Date;
+	description: string;
+	createdDate: string;
+	updatedDate: string;
+	dueDate: string;
 	status: number;
 	onDelete: Function;
 }
 
-function Task({ id, name, description, createdDate, updatedDate, dueDate, status, onDelete }: TaskProps) {
+function Task({ uuid, name, description, createdDate, updatedDate, dueDate, status, onDelete }: TaskProps) {
 	const [taskStatus, setStatus] = useState(status);
 	const isMounted = useRef(false);
 
@@ -54,7 +53,7 @@ function Task({ id, name, description, createdDate, updatedDate, dueDate, status
 		axios.put(
 			`/api/tasks/`,
 			{
-				id: id,
+				id: uuid,
 				name: name,
 				description: description,
 				due_date: dueDate,
@@ -66,12 +65,12 @@ function Task({ id, name, description, createdDate, updatedDate, dueDate, status
 
 	function onView() {
 		setFocusModal(FocusState.VIEW_TASK);
-		setData({ id, name, description, createdDate, updatedDate, dueDate, status });
+		setData({ uuid, name, description, createdDate, updatedDate, dueDate, status });
 	}
 
 	function onEdit() {
 		setFocusModal(FocusState.EDIT_TASK);
-		setData({ id, name, description, createdDate, updatedDate, dueDate, status });
+		setData({ uuid, name, description, createdDate, updatedDate, dueDate, status });
 	}
 
 	return (
@@ -94,7 +93,7 @@ function Task({ id, name, description, createdDate, updatedDate, dueDate, status
 				<button onClick={() => onEdit()}>
 					<MdModeEdit />
 				</button>
-				<button onClick={() => onDelete(id)}>
+				<button onClick={() => onDelete(uuid)}>
 					<MdDelete />
 				</button>
 			</div>
